@@ -2,6 +2,7 @@ package com.apexpay.wallet.controller;
 import com.apexpay.wallet.dto.TransferRequest;
 import com.apexpay.wallet.model.Account;
 import com.apexpay.wallet.service.AccountService;
+import com.apexpay.wallet.service.TransferService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,12 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor
 public class AccountController {
     private final AccountService accountService;
+    private final TransferService transferService;
 
     // POST /api/v1/accounts
     @PostMapping
@@ -24,19 +27,15 @@ public class AccountController {
     }
 
     // GET /api/v1/accounts/{id}
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<Account> getAccount(@PathVariable Long id) {
         return ResponseEntity.ok(accountService.getAccount(id));
     }
 
     // POST /api/v1/transfer
     @PostMapping("/transfer")
-    public ResponseEntity<String> trasnfer(@Valid @RequestBody TransferRequest request) {
-        accountService.transferFunds(
-                request.getSourceAccountId(),
-                request.getDestinationAccountId(),
-                request.getAmount()
-        );
-        return ResponseEntity.ok("Transfer successful");
+    public ResponseEntity<Map<String, String>> trasnfer(@Valid @RequestBody TransferRequest request) {
+        transferService.executeTransfer(request);
+        return ResponseEntity.ok(Map.of("status", "SUCCESS", "message", "Transferred " + request.getAmount() + " successfully."));
     }
 }
