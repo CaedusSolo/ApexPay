@@ -32,9 +32,9 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAccount(id));
     }
 
-    // POST /api/v1/transfer
+    // POST /api/v1/accounts/transfer
     @PostMapping("/transfer")
-    public ResponseEntity<Map<String, String>> trasnfer(@Valid @RequestBody TransferRequest request) {
+    public ResponseEntity<Map<String, String>> transfer(@Valid @RequestBody TransferRequest request) {
         transferService.executeTransfer(request);
         return ResponseEntity.ok(Map.of("status", "SUCCESS", "message", "Transferred " + request.getAmount() + " successfully."));
     }
