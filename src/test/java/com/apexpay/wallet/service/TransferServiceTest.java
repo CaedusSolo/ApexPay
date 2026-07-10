@@ -26,8 +26,8 @@ public class TransferServiceTest {
     @Test
     void shouldThrowExceptionWhenInsufficientFunds() {
         // set up the scenario
-        Account source = new Account(1L,  new BigDecimal("50.00"), "MYR");
-        Account destination = new Account(2L, new BigDecimal("100.00"), "MYR");
+        Account source = new Account(1L,  new BigDecimal("50.00"), "MYR", 0L);
+        Account destination = new Account(2L, new BigDecimal("100.00"), "MYR", 0L);
 
         TransferRequest request = new TransferRequest();
         request.setSourceAccountId(1L);

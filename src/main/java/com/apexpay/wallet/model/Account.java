@@ -11,12 +11,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor // Lombok annotation for auto-generating constructor with all properties
 @Entity  // for spring boot to know this is a database table
 @Table(name = "accounts")  // explicitly name the table in database
-
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private BigDecimal balance;
     private String currency;
+
+    @Version
+    private Long version;
 }
